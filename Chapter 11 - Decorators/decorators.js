@@ -1,4 +1,4 @@
-// Decorators are meta programming constructs
+// Decorators are meta programming constructs. This file is all ECMAScript Decorators and can be used iwthout TypeScript
 // Allow you to write code that changes the behaviour of other code
 // Angular is a good example of a decorator library
 // Is an OO feature - so just for classes and things in classes

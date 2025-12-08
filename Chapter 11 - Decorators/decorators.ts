@@ -49,8 +49,6 @@ function replacer<T>(initValue: T) {
 	}
 }
 
-
-
 @logger
 class Person {
 
@@ -91,7 +89,7 @@ greet(); // What this will return is "Hi, I am undefined" as we are trying to ac
 // You can bind context in classes to solve this, like this:
 /*
 constructor() {
-this.greet = this.greet.gind(this)
+this.greet = this.greet.bind(this)
 }
 */
 // Or alternatively with autobind decorator
