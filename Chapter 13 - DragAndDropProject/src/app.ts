@@ -16,6 +16,45 @@ function autobind(
 	return adjDescriptor;
 }
 
+// validation
+interface Validatable {
+	value: string | number;
+	required?: boolean;
+	minLength?: number;
+	maxLength?: number;
+	min?: number;
+	max?: number;
+}
+
+function validate(validateableInput: Validatable): boolean {
+	let isValid = true;
+
+	console.log(validateableInput)
+
+	if(validateableInput.required) {
+		isValid = isValid && validateableInput.value.toString().trim().length !== 0;
+	}
+
+	// != null is NOT (null and undefined)
+	if (validateableInput.minLength !=null && validateableInput.minLength && typeof validateableInput.value === 'string') {
+		isValid = isValid && validateableInput.minLength <= validateableInput.value.length
+	}
+
+	if (validateableInput.maxLength !=null && validateableInput.maxLength && typeof validateableInput.value === 'string') {
+		isValid = isValid && validateableInput.maxLength >= validateableInput.value.length
+	}
+
+	if (validateableInput.min != null && typeof validateableInput.value === 'number') {
+		isValid = isValid && validateableInput.value >= validateableInput.min;
+	}
+
+	if (validateableInput.max != null && typeof validateableInput.value === 'number') {
+		isValid = isValid && validateableInput.value <= validateableInput.max;
+	}
+
+	return isValid;
+}
+
 class ProjectInput {
 
 	private templateElement: HTMLTemplateElement;
@@ -47,8 +86,35 @@ class ProjectInput {
 		const enteredDescription = this.descriptionInputElement.value;
 		const enteredPeople = this.peopleInputElement.value;
 
+		const titleValidatable: Validatable = {
+			value: enteredTitle,
+			required: true
+		}
+
+		const descriptionValidatable: Validatable = {
+			value: enteredDescription,
+			required: true,
+			minLength: 5
+		}
+
+		const peopleValidatable: Validatable = {
+			value: enteredPeople,
+			required: true,
+			min: 1,
+			max: 5
+		}
+
+		console.log(titleValidatable);
+		console.log(descriptionValidatable);
+		console.log(peopleValidatable);
+
 		// Don't do this
-		if (enteredTitle.trim().length === 0 || enteredDescription.trim().length === 0 || enteredPeople.trim().length === 0) {
+		// if (enteredTitle.trim().length === 0 || enteredDescription.trim().length === 0 || enteredPeople.trim().length === 0) {
+		if(
+			!validate(titleValidatable) ||
+			!validate(descriptionValidatable) ||
+			!validate(peopleValidatable)
+		) {
 			alert('Invalid input')
 			return;
 		} else {
